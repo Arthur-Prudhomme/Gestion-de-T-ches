@@ -99,6 +99,10 @@ h2 {
 	cursor: pointer;
 }
 
+#cancel-button {
+	background-color: #d9534f !important;
+}
+
 .task button:hover {
 	background-color: #c9302c;
 }
