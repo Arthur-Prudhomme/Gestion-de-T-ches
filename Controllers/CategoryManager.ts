@@ -1,4 +1,4 @@
-import ICategory from "../Interfaces/Category";
+import ICategory from "../Interfaces/Category.js";
 
 var Categories: CategoryClass[];
 
@@ -13,3 +13,5 @@ class CategoryClass implements ICategory {
 
 	addCategory() {}
 }
+
+export { CategoryClass, Categories };
