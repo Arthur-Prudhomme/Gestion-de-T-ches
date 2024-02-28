@@ -9,9 +9,11 @@ class TaskClass {
     }
     addTask() {
         TaskClass.tasks.push(this);
+        TaskClass.updateLocalStorage();
         console.log(TaskClass.tasks);
     }
     removeTask(id) {
+        TaskClass.updateLocalStorage();
         console.log("removeTask");
     }
     static editTask(id, title, description, date, priority, category) {
@@ -23,7 +25,11 @@ class TaskClass {
         task.date = date;
         task.priority = priority;
         task.category = category;
+        TaskClass.updateLocalStorage();
         console.log(TaskClass.tasks);
+    }
+    static updateLocalStorage() {
+        localStorage.setItem("taskList", JSON.stringify(TaskClass.tasks));
     }
 }
 TaskClass.tasks = [];

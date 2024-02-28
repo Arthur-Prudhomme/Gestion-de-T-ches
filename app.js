@@ -25,8 +25,10 @@ editTaskButton.addEventListener("click", () => editTask(3, "testEdit", "testDesc
 //################# add task in DOM #################
 var taskContainer = document.querySelector("#tasks-container");
 function addTasksDOM() {
+    var taskList = JSON.parse(localStorage.getItem("taskList"));
+    TaskClass.tasks = taskList;
     taskContainer.innerHTML = "";
-    TaskClass.tasks.forEach((task) => {
+    taskList.forEach((task) => {
         addTaskDOM(task);
     });
 }

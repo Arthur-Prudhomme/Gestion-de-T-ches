@@ -28,10 +28,12 @@ class TaskClass implements Task {
 
 	addTask() {
 		TaskClass.tasks.push(this);
+		TaskClass.updateLocalStorage();
 		console.log(TaskClass.tasks);
 	}
 
 	removeTask(id: number) {
+		TaskClass.updateLocalStorage();
 		console.log("removeTask");
 	}
 
@@ -50,7 +52,13 @@ class TaskClass implements Task {
 		task.date = date;
 		task.priority = priority;
 		task.category = category;
+
+		TaskClass.updateLocalStorage();
 		console.log(TaskClass.tasks);
+	}
+
+	static updateLocalStorage() {
+		localStorage.setItem("taskList", JSON.stringify(TaskClass.tasks));
 	}
 }
 
