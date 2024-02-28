@@ -12,9 +12,11 @@ class TaskClass {
         TaskClass.updateLocalStorage();
         console.log(TaskClass.tasks);
     }
-    removeTask(id) {
+    static removeTask(id) {
+        let taskIndex = TaskClass.tasks.findIndex((task) => task.id == id);
+        TaskClass.tasks.splice(taskIndex, 1);
         TaskClass.updateLocalStorage();
-        console.log("removeTask");
+        console.log(TaskClass.tasks);
     }
     static editTask(id, title, description, date, priority, category) {
         let task = TaskClass.tasks.find((task) => task.id == id);

@@ -10,6 +10,13 @@ function addTask(title, description, date, priority, category) {
 function editTask(id, title, description, date, priority, category) {
     TaskClass.editTask(id, title, description, date, priority, category);
 }
+//################# remove task #################
+function removeTask(id) {
+    TaskClass.removeTask(id);
+    let task = document.getElementById(`task-n-${id}`);
+    task.remove();
+}
+//###############################################
 //################# add task #################
 var form = document.forms["addTaskForm"];
 form.addEventListener("submit", () => {
@@ -36,6 +43,7 @@ addTasksDOM();
 function addTaskDOM(task) {
     const taskDiv = document.createElement("div");
     taskDiv.classList.add("task", task.priority);
+    taskDiv.setAttribute("id", `task-n-${task.id}`);
     const taskTitle = document.createElement("h3");
     taskTitle.textContent = task.title;
     const span = document.createElement("span");
@@ -53,6 +61,7 @@ function addTaskDOM(task) {
     const deleteButton = document.createElement("button");
     deleteButton.setAttribute("type", "button");
     deleteButton.textContent = "Supprimer";
+    deleteButton.addEventListener("click", () => removeTask(task.id));
     const editButton = document.createElement("button");
     editButton.classList.add("edit-btn");
     editButton.textContent = "Modifier";
