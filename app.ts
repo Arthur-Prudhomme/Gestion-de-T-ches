@@ -40,9 +40,15 @@ function editTask(
 }
 
 var addTaskButton = document.querySelector("#addTaskButton");
-addTaskButton.addEventListener("click", () =>
-	addTask("test", "testDesc", new Date(), "high")
-);
+var form = document.forms["addTaskForm"];
+form.addEventListener("submit", () => {
+	addTask(
+		form.title.value,
+		form.description.value,
+		form.date.value,
+		form.priority.value
+	);
+});
 
 var editTaskButton = document.querySelector("#editTaskButton");
 editTaskButton.addEventListener("click", () =>
