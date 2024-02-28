@@ -7,7 +7,7 @@ function addTask(
 	title: string,
 	description: string,
 	date: Date,
-	priority: string,
+	priority: "low" | "medium" | "high",
 	category?: ICategory[]
 ) {
 	let lastId = 0;
@@ -28,7 +28,23 @@ function addTask(
 	newTask.addTask();
 }
 
+function editTask(
+	id: number,
+	title: string,
+	description: string,
+	date: Date,
+	priority: "low" | "medium" | "high",
+	category?: ICategory[]
+) {
+	TaskClass.editTask(id, title, description, date, priority, category);
+}
+
 var addTaskButton = document.querySelector("#addTaskButton");
 addTaskButton.addEventListener("click", () =>
 	addTask("test", "testDesc", new Date(), "high")
+);
+
+var editTaskButton = document.querySelector("#editTaskButton");
+editTaskButton.addEventListener("click", () =>
+	editTask(3, "testEdit", "testDescEdit", new Date(), "high")
 );

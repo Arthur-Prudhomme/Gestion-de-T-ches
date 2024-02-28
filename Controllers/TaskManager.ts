@@ -6,7 +6,7 @@ class TaskClass implements Task {
 	title: string;
 	description: string;
 	date: Date;
-	priority: string;
+	priority: "low" | "medium" | "high";
 	category?: ICategory[];
 	static tasks: TaskClass[] = [];
 
@@ -15,7 +15,7 @@ class TaskClass implements Task {
 		title: string,
 		description: string,
 		date: Date,
-		priority: string,
+		priority: "low" | "medium" | "high",
 		category?: ICategory[]
 	) {
 		this.id = id;
@@ -35,15 +35,22 @@ class TaskClass implements Task {
 		console.log("removeTask");
 	}
 
-	editTask(
+	static editTask(
 		id: number,
 		title: string,
 		description: string,
 		date: Date,
-		priority: string,
+		priority: "low" | "medium" | "high",
 		category?: ICategory[]
 	) {
-		console.log("editTask");
+		let task = TaskClass.tasks.find((task) => task.id == id);
+		if (task == undefined) return;
+		task.title = title;
+		task.description = description;
+		task.date = date;
+		task.priority = priority;
+		task.category = category;
+		console.log(TaskClass.tasks);
 	}
 }
 

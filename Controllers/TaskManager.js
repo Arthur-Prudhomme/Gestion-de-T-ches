@@ -14,8 +14,16 @@ class TaskClass {
     removeTask(id) {
         console.log("removeTask");
     }
-    editTask(id, title, description, date, priority, category) {
-        console.log("editTask");
+    static editTask(id, title, description, date, priority, category) {
+        let task = TaskClass.tasks.find((task) => task.id == id);
+        if (task == undefined)
+            return;
+        task.title = title;
+        task.description = description;
+        task.date = date;
+        task.priority = priority;
+        task.category = category;
+        console.log(TaskClass.tasks);
     }
 }
 TaskClass.tasks = [];

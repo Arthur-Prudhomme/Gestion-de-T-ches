@@ -3,7 +3,7 @@ interface Task {
 	title: string;
 	description: string;
 	date: Date;
-	priority: string;
+	priority: "low" | "medium" | "high";
 	category?: Category[];
 }
 
