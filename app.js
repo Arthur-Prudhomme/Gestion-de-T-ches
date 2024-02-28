@@ -1,4 +1,5 @@
 import { TaskClass } from "./Controllers/TaskManager.js";
+import { CategoryClass } from "./Controllers/CategoryManager.js";
 function addTask(title, description, date, priority, category) {
     let lastId = 0;
     if (TaskClass.tasks != undefined && TaskClass.tasks.length != 0)
@@ -6,6 +7,15 @@ function addTask(title, description, date, priority, category) {
     lastId += 1;
     let newTask = new TaskClass(lastId, title, description, date, priority, category);
     newTask.addTask();
+}
+function addCategory(title) {
+    let lastId = 0;
+    if (CategoryClass.categories != undefined &&
+        CategoryClass.categories.length != 0)
+        lastId = CategoryClass.categories[CategoryClass.categories.length - 1].id;
+    lastId += 1;
+    let newCategory = new CategoryClass(lastId, title);
+    newCategory.addCategory();
 }
 function editTask(id, title, description, date, priority, category) {
     TaskClass.editTask(id, title, description, date, priority, category);
@@ -25,6 +35,19 @@ addTaskForm.addEventListener("submit", () => {
     addTasksDOM();
 });
 //############################################
+//################# add category #################
+var addCategoryForm = document.forms["addCategoryForm"];
+addCategoryForm.addEventListener("submit", () => {
+    addCategory(addCategoryForm.title.value);
+    addCategoryForm.reset();
+});
+//############################################
+let taskCategory = document.getElementById("taskCategory");
+let categoryList = JSON.parse(localStorage.getItem("categoriesList"));
+console.log(categoryList);
+taskCategory.innerHTML += `
+${categoryList.map((category) => `<option value="${category.id}">${category.title}</option>`)}
+`;
 //################# edit task #################
 function editTaskForm(id) {
     let editTaskForm = document.forms["editTaskForm"];

@@ -1,9 +1,16 @@
-var Categories;
 class CategoryClass {
     constructor(id, title) {
         this.id = id;
         this.title = title;
     }
-    addCategory() { }
+    addCategory() {
+        CategoryClass.categories.push(this);
+        CategoryClass.updateLocalStorage();
+        console.log(CategoryClass.categories);
+    }
+    static updateLocalStorage() {
+        localStorage.setItem("categoriesList", JSON.stringify(CategoryClass.categories));
+    }
 }
-export { CategoryClass, Categories };
+CategoryClass.categories = [];
+export { CategoryClass };
