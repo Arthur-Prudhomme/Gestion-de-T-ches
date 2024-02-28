@@ -1,5 +1,6 @@
-interface Category {
+interface ICategory {
+	id: number;
 	title: string;
 }
 
-export default Category;
+export default ICategory;
