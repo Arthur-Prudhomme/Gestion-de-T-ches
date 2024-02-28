@@ -84,36 +84,16 @@ function addTaskDOM(task: TaskClass) {
 	const taskDiv: HTMLDivElement = document.createElement("div");
 	taskDiv.classList.add("task", task.priority);
 	taskDiv.setAttribute("id", `task-n-${task.id}`);
-
-	const taskTitle: HTMLHeadingElement = document.createElement("h3");
-	taskTitle.textContent = task.title;
-	const span: HTMLSpanElement = document.createElement("span");
-	if (task.priority == "high") span.textContent = "– Priorité Haute";
-	if (task.priority == "medium") span.textContent = "– Priorité Moyenne";
-	if (task.priority == "low") span.textContent = "– Priorité Faible";
-	taskTitle.appendChild(span);
-
-	const deadlineParagraph: HTMLParagraphElement = document.createElement("p");
-	deadlineParagraph.textContent = `Date d'échéance: ${task.date}`;
-
-	const descriptionParagraph: HTMLParagraphElement =
-		document.createElement("p");
-	descriptionParagraph.textContent = task.description;
-
-	const deleteButton: HTMLButtonElement = document.createElement("button");
-	deleteButton.setAttribute("type", "button");
-	deleteButton.textContent = "Supprimer";
-	deleteButton.addEventListener("click", () => removeTask(task.id));
-
-	const editButton: HTMLButtonElement = document.createElement("button");
-	editButton.classList.add("edit-btn");
-	editButton.textContent = "Modifier";
-
-	taskDiv.appendChild(taskTitle);
-	taskDiv.appendChild(deadlineParagraph);
-	taskDiv.appendChild(descriptionParagraph);
-	taskDiv.appendChild(deleteButton);
-	taskDiv.appendChild(editButton);
+	taskDiv.innerHTML = `
+	<h3>${task.title} <span>– Priorité : ${task.priority}</span></h3>
+	<p>Date d'échéance: ${task.date}</p>
+	<p>${task.description}</p>
+	<button type="button" id="delete-button">Supprimer</button>
+	<button class="edit-btn">Modifier</button>
+	`;
+	taskDiv
+		.querySelector("#delete-button")
+		.addEventListener("click", () => removeTask(task.id));
 
 	taskContainer.appendChild(taskDiv);
 }
