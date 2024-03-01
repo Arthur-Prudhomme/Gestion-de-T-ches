@@ -69,7 +69,8 @@ addTaskForm.addEventListener("submit", () => {
 		addTaskForm.title.value,
 		addTaskForm.description.value,
 		addTaskForm.date.value,
-		addTaskForm.priority.value
+		addTaskForm.priority.value,
+		addTaskForm.category.value
 	);
 	addTaskForm.reset();
 	addTasksDOM();
@@ -81,17 +82,24 @@ var addCategoryForm = document.forms["addCategoryForm"];
 addCategoryForm.addEventListener("submit", () => {
 	addCategory(addCategoryForm.title.value);
 	addCategoryForm.reset();
+	addCategoryDOM();
 });
-//############################################
+//###############################################
 
-let taskCategory = document.getElementById("taskCategory");
-let categoryList = JSON.parse(localStorage.getItem("categoriesList"));
-console.log(categoryList);
-taskCategory.innerHTML += `
+//################# add category DOM #################
+function addCategoryDOM() {
+	let taskCategory = document.getElementById("taskCategory");
+	let categoryList = JSON.parse(localStorage.getItem("categoriesList"));
+	console.log(categoryList);
+	taskCategory.innerHTML = "";
+	taskCategory.innerHTML += `
 ${categoryList.map(
 	(category) => `<option value="${category.id}">${category.title}</option>`
 )}
 `;
+}
+addCategoryDOM();
+//####################################################
 
 //################# edit task #################
 function editTaskForm(id: number) {
@@ -160,6 +168,7 @@ function addTaskDOM(task: TaskClass) {
 	taskDiv.innerHTML = `
 	<h3>${task.title} <span>– Priorité : ${task.priority}</span></h3>
 	<p>Date d'échéance: ${task.date}</p>
+	<p>Catégories: ${task.category}</p>
 	<p>${task.description}</p>
 	<button type="button" id="delete-button">Supprimer</button>
 	<button class="edit-btn" id="edit-button">Modifier</button>`;
