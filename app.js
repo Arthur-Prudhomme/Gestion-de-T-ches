@@ -40,13 +40,23 @@ var applyFilter = document.forms["filterForm"];
 applyFilter.addEventListener("submit", () => {
     console.log("applyFilter");
     var taskList = JSON.parse(localStorage.getItem("taskList"));
+    let filters = {};
     let filterPriority = applyFilter.priority.value;
+    if (filterPriority != "all" && filterPriority.length != 0)
+        Object.assign(filters, { priority: filterPriority });
     let filterDate = applyFilter.date.value;
-    if (filterPriority == "all") {
-        addTasksDOM();
-        return;
-    }
-    let filteredTaskList = taskList.filter((task) => task.priority == filterPriority || task.date == filterDate);
+    if (filterDate != null && filterDate.length != 0)
+        Object.assign(filters, { date: filterDate });
+    let filterCategory = applyFilter.category.value;
+    if (filterCategory != null && filterCategory.length != 0)
+        Object.assign(filters, { category: filterCategory });
+    let filteredTaskList = taskList.filter(function (task) {
+        for (var key in filters) {
+            if (task[key] === undefined || task[key] != filters[key])
+                return false;
+        }
+        return true;
+    });
     console.log(filteredTaskList);
     taskContainer.innerHTML = "";
     filteredTaskList.forEach((task) => {
@@ -64,15 +74,17 @@ addCategoryForm.addEventListener("submit", () => {
 //################################################
 //################# add category DOM #################
 function addCategoryDOM() {
-    let taskCategory = document.getElementById("taskCategory");
+    let taskCategory = document.querySelectorAll("#taskCategory");
     let categoryList = JSON.parse(localStorage.getItem("categoriesList"));
     if (categoryList) {
         CategoryClass.categories = categoryList;
-        taskCategory.innerHTML = "";
-        taskCategory.innerHTML += `
+        taskCategory.forEach((taskCategory) => {
+            taskCategory.innerHTML = "";
+            taskCategory.innerHTML += `
 		<option ></option>
 ${categoryList.map((category) => `<option value="${category.id}">${category.title}</option>`)}
 `;
+        });
     }
 }
 addCategoryDOM();
