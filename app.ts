@@ -84,19 +84,22 @@ addCategoryForm.addEventListener("submit", () => {
 	addCategoryForm.reset();
 	addCategoryDOM();
 });
-//###############################################
+//################################################
 
 //################# add category DOM #################
 function addCategoryDOM() {
 	let taskCategory = document.getElementById("taskCategory");
 	let categoryList = JSON.parse(localStorage.getItem("categoriesList"));
-	console.log(categoryList);
-	taskCategory.innerHTML = "";
-	taskCategory.innerHTML += `
+	if (categoryList) {
+		console.log(categoryList);
+		taskCategory.innerHTML = "";
+		taskCategory.innerHTML += `
+		<option ></option>
 ${categoryList.map(
 	(category) => `<option value="${category.id}">${category.title}</option>`
 )}
 `;
+	}
 }
 addCategoryDOM();
 //####################################################
@@ -153,22 +156,36 @@ function editMode(task: TaskClass) {
 var taskContainer = document.querySelector("#tasks-container");
 function addTasksDOM() {
 	var taskList = JSON.parse(localStorage.getItem("taskList"));
-	TaskClass.tasks = taskList;
-	taskContainer.innerHTML = "";
-	taskList.forEach((task) => {
-		addTaskDOM(task);
-	});
+	if (taskList) {
+		TaskClass.tasks = taskList;
+		taskContainer.innerHTML = "";
+		taskList.forEach((task) => {
+			addTaskDOM(task);
+		});
+	}
 }
 addTasksDOM();
 
 function addTaskDOM(task: TaskClass) {
+	let categoryList = JSON.parse(localStorage.getItem("categoriesList"));
+	let category = new CategoryClass(0, "");
+	if (
+		categoryList &&
+		![undefined, null].includes(task.category) &&
+		task.category.length != 0
+	) {
+		console.log(task.category);
+		category = categoryList.find((category) => category.id == task.category);
+		console.log(category);
+	}
+
 	const taskDiv: HTMLDivElement = document.createElement("div");
 	taskDiv.classList.add("task", task.priority);
 	taskDiv.setAttribute("id", `task-n-${task.id}`);
 	taskDiv.innerHTML = `
 	<h3>${task.title} <span>– Priorité : ${task.priority}</span></h3>
 	<p>Date d'échéance: ${task.date}</p>
-	<p>Catégories: ${task.category}</p>
+	<p>Catégories: ${category == undefined ? "aucune" : category.title}</p>
 	<p>${task.description}</p>
 	<button type="button" id="delete-button">Supprimer</button>
 	<button class="edit-btn" id="edit-button">Modifier</button>`;
