@@ -36,9 +36,10 @@
 						id="taskDescription"
 						placeholder="Description de la tâche"
 						name="description"
+						required
 					></textarea>
-					<input type="date" id="taskDueDate" name="date" />
-					<select id="taskPriority" name="priority">
+					<input type="date" id="taskDueDate" name="date" required />
+					<select id="taskPriority" name="priority" required>
 						<option value="low">Faible</option>
 						<option value="medium" selected>Moyenne</option>
 						<option value="high">Haute</option>
@@ -50,15 +51,15 @@
 			<section id="category-form">
 				<h2>Catégories</h2>
 				<form id="categoryForm" name="addCategoryForm" onsubmit="return false">
-					<input type="text" id="addCategory" name="title" />
+					<input type="text" id="addCategory" name="title" required />
 					<button type="submit">Ajouter la catégorie</button>
 				</form>
 			</section>
 			<section id="task-filter">
 				<h2>Filtrer les Tâches</h2>
-				<form id="filterForm">
+				<form id="filterForm" onsubmit="return false">
 					<label for="filterPriority">Filtrer par Priorité :</label>
-					<select id="filterPriority">
+					<select id="filterPriority" name="priority">
 						<option value="all">Toutes</option>
 						<option value="high">Haute</option>
 						<option value="medium">Moyenne</option>
@@ -66,9 +67,9 @@
 					</select>
 
 					<label for="filterDate">Filtrer par Date :</label>
-					<input type="date" id="filterDate" />
+					<input type="date" id="filterDate" name="date" />
 
-					<button type="button" id="applyFilter">Appliquer Filtre</button>
+					<button type="submit" id="applyFilter">Appliquer Filtre</button>
 				</form>
 			</section>
 

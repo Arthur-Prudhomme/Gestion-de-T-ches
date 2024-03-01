@@ -77,6 +77,30 @@ addTaskForm.addEventListener("submit", () => {
 });
 //############################################
 
+//################# apply filter #################
+var applyFilter = document.forms["filterForm"];
+applyFilter.addEventListener("submit", () => {
+	console.log("applyFilter");
+	var taskList = JSON.parse(localStorage.getItem("taskList"));
+
+	let filterPriority = applyFilter.priority.value;
+	let filterDate = applyFilter.date.value;
+	if (filterPriority == "all") {
+		addTasksDOM();
+		return;
+	}
+	let filteredTaskList = taskList.filter(
+		(task) => task.priority == filterPriority || task.date == filterDate
+	);
+	console.log(filteredTaskList);
+
+	taskContainer.innerHTML = "";
+	filteredTaskList.forEach((task) => {
+		addTaskDOM(task);
+	});
+});
+//################################################
+
 //################# add category #################
 var addCategoryForm = document.forms["addCategoryForm"];
 addCategoryForm.addEventListener("submit", () => {
@@ -91,7 +115,7 @@ function addCategoryDOM() {
 	let taskCategory = document.getElementById("taskCategory");
 	let categoryList = JSON.parse(localStorage.getItem("categoriesList"));
 	if (categoryList) {
-		console.log(categoryList);
+		CategoryClass.categories = categoryList;
 		taskCategory.innerHTML = "";
 		taskCategory.innerHTML += `
 		<option ></option>
@@ -102,6 +126,7 @@ ${categoryList.map(
 	}
 }
 addCategoryDOM();
+
 //####################################################
 
 //################# edit task #################
@@ -113,13 +138,15 @@ function editTaskForm(id: number) {
 			editTaskForm.title.value,
 			editTaskForm.description.value,
 			editTaskForm.date.value,
-			editTaskForm.priority.value
+			editTaskForm.priority.value,
+			editTaskForm.category.value
 		);
 		addTasksDOM();
 	});
 }
 
 function editMode(task: TaskClass) {
+	let categoryList = JSON.parse(localStorage.getItem("categoriesList"));
 	addTasksDOM();
 	let taskDiv = document.getElementById(`task-n-${task.id}`);
 	taskDiv.innerHTML = `
@@ -136,6 +163,16 @@ function editMode(task: TaskClass) {
 		task.priority == "medium" ? "selected" : ""
 	}>Moyenne</option>
 	<option value="high" ${task.priority == "high" ? "selected" : ""}>Haute</option>
+	</select>
+
+	<select id="editRaskCategory" name="category">
+	<option ></option>
+	${categoryList.map(
+		(category) =>
+			`<option value="${category.id}" ${
+				category.id == task.category ? "selected" : ""
+			}>${category.title}</option>`
+	)}
 	</select>
 	
 	<button type="button" id="cancel-button">Annuler</button>
@@ -174,9 +211,7 @@ function addTaskDOM(task: TaskClass) {
 		![undefined, null].includes(task.category) &&
 		task.category.length != 0
 	) {
-		console.log(task.category);
 		category = categoryList.find((category) => category.id == task.category);
-		console.log(category);
 	}
 
 	const taskDiv: HTMLDivElement = document.createElement("div");
@@ -185,7 +220,7 @@ function addTaskDOM(task: TaskClass) {
 	taskDiv.innerHTML = `
 	<h3>${task.title} <span>– Priorité : ${task.priority}</span></h3>
 	<p>Date d'échéance: ${task.date}</p>
-	<p>Catégories: ${category == undefined ? "aucune" : category.title}</p>
+	<p>Catégories: ${category == undefined ? "" : category.title}</p>
 	<p>${task.description}</p>
 	<button type="button" id="delete-button">Supprimer</button>
 	<button class="edit-btn" id="edit-button">Modifier</button>`;
